@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis Kebugaran Jasmani Kelas 7 Fase D</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+            min-height: 100vh;
+        }
+        .card-shadow {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .animate-pop {
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center p-4 sm:p-6 md:p-8">
+
+    <div class="w-full max-w-3xl bg-white/95 backdrop-blur-md rounded-3xl card-shadow overflow-hidden transition-all duration-300">
+
+        <!-- LANDING PAGE -->
+        <div id="landing-page" class="p-6 sm:p-10 text-center animate-pop">
+            <div class="inline-flex items-center justify-center w-20 h-20 bg-indigo-100 text-indigo-600 rounded-full text-3xl mb-6 shadow-inner">
+                <i class="fa-solid fa-dumbbell"></i>
+            </div>
+            <span class="inline-block bg-cyan-100 text-cyan-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-3">Kelas 7 • Fase D • PJOK</span>
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-800 mb-3">Kuis Kebugaran Jasmani 🏃‍♂️💨</h1>
+            <p class="text-gray-600 max-w-lg mx-auto mb-8 text-sm sm:text-base">
+                Uji seberapa jauh pemahamanmu tentang komponen kebugaran jasmani, latihan kekuatan, kelenturan, daya tahan, dan tes TKJI!
+            </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8 text-left max-w-xl mx-auto">
+                <div class="bg-indigo-50 p-4 rounded-2xl border border-indigo-100 flex items-center space-x-3">
+                    <div class="text-indigo-600 text-xl"><i class="fa-solid fa-list-check"></i></div>
+                    <div>
+                        <div class="font-bold text-gray-800 text-sm">10 Soal</div>
+                        <div class="text-xs text-gray-500">Pilihan Ganda Seru</div>
+                    </div>
+                </div>
+                <div class="bg-cyan-50 p-4 rounded-2xl border border-cyan-100 flex items-center space-x-3">
+                    <div class="text-cyan-600 text-xl"><i class="fa-solid fa-clock"></i></div>
+                    <div>
+                        <div class="font-bold text-gray-800 text-sm">Tanpa Batas Waktu</div>
+                        <div class="text-xs text-gray-500">Kerjakan Santai & Teliti</div>
+                    </div>
+                </div>
+                <div class="bg-emerald-50 p-4 rounded-2xl border border-emerald-100 flex items-center space-x-3">
+                    <div class="text-emerald-600 text-xl"><i class="fa-solid fa-medal"></i></div>
+                    <div>
+                        <div class="font-bold text-gray-800 text-sm">Lencana Juara</div>
+                        <div class="text-xs text-gray-500">Dapatkan Predikatmu</div>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="startQuiz()" class="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-indigo-600 to-cyan-500 text-white font-bold rounded-2xl shadow-lg hover:opacity-90 transform hover:-translate-y-0.5 transition-all text-base sm:text-lg">
+                Mulai Kuis Sekarang <i class="fa-solid fa-arrow-right ml-2"></i>
+            </button>
+        </div>
+
+        <!-- QUIZ PAGE -->
+        <div id="quiz-page" class="hidden p-6 sm:p-10">
+            <!-- Header Kuis -->
+            <div class="flex items-center justify-between mb-6 pb-4 border-b border-gray-100">
+                <div class="flex items-center space-x-2">
+                    <span class="bg-indigo-100 text-indigo-700 font-bold text-xs px-3 py-1.5 rounded-xl">
+                        Soal <span id="current-q-num">1</span> dari 10
+                    </span>
+                </div>
+                <div class="text-sm font-semibold text-gray-500">
+                    Skor: <span id="live-score" class="text-indigo-600 font-bold">0</span>
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="w-full bg-gray-100 h-2 rounded-full mb-6 overflow-hidden">
+                <div id="progress-bar" class="bg-indigo-600 h-full w-0 transition-all duration-300"></div>
+            </div>
+
+            <!-- Pertanyaan -->
+            <h2 id="question-text" class="text-lg sm:text-xl font-bold text-gray-800 mb-6 leading-relaxed">
+                Loading pertanyaan...
+            </h2>
+
+            <!-- Opsi Jawaban -->
+            <div id="options-container" class="space-y-3 mb-6">
+                <!-- Diisi via JavaScript -->
+            </div>
+
+            <!-- Panel Feedback & Tombol Lanjut -->
+            <div id="feedback-panel" class="hidden mt-6 p-4 rounded-2xl bg-gray-50 border border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-4 animate-pop">
+                <div id="feedback-text" class="text-sm font-medium text-gray-700 text-center sm:text-left">
+                    <!-- Feedback penjelasan -->
+                </div>
+                <button id="next-btn" onclick="nextQuestion()" class="w-full sm:w-auto px-6 py-3 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition-all text-sm shadow-md">
+                    Lanjut <i class="fa-solid fa-arrow-right ml-1"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- RESULT PAGE -->
+        <div id="result-page" class="hidden p-6 sm:p-10 text-center animate-pop">
+            <div id="result-badge-icon" class="inline-flex items-center justify-center w-24 h-24 rounded-full text-4xl mb-6 shadow-md">
+                🏆
+            </div>
+            <span id="result-badge-label" class="inline-block text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-2">Predikat Kamu</span>
+            <h2 class="text-3xl font-extrabold text-gray-800 mb-2">Kuis Selesai!</h2>
+            <p class="text-gray-600 mb-6 text-sm sm:text-base">Kamu telah menyelesaikan seluruh tantangan kebugaran jasmani.</p>
+
+            <div class="bg-gray-50 border border-gray-200 p-6 rounded-3xl max-w-md mx-auto mb-8">
+                <div class="text-sm text-gray-500 mb-1">Skor Akhir Kamu</div>
+                <div class="text-5xl font-black text-indigo-600 mb-3"><span id="final-score">0</span> <span class="text-2xl text-gray-400">/ 100</span></div>
+                <div id="result-message" class="text-sm font-semibold text-gray-700">Pertahankan prestasi sehatmu!</div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <button onclick="restartQuiz()" class="px-6 py-3 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition-all shadow-md text-sm">
+                    <i class="fa-solid fa-rotate-right mr-2"></i> Ulangi Kuis
+                </button>
+                <button onclick="showReview()" class="px-6 py-3 bg-white border border-gray-300 text-gray-700 font-bold rounded-xl hover:bg-gray-50 transition-all text-sm">
+                    <i class="fa-solid fa-list-check mr-2"></i> Lihat Pembahasan
+                </button>
+            </div>
+        </div>
+
+        <!-- REVIEW PAGE -->
+        <div id="review-page" class="hidden p-6 sm:p-10">
+            <div class="flex items-center justify-between mb-6 pb-4 border-b border-gray-100">
+                <h2 class="text-xl font-bold text-gray-800"><i class="fa-solid fa-book-open text-indigo-600 mr-2"></i> Pembahasan Soal</h2>
+                <button onclick="backToResult()" class="text-xs font-semibold bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1.5 rounded-lg transition-all">
+                    <i class="fa-solid fa-arrow-left mr-1"></i> Kembali ke Skor
+                </button>
+            </div>
+            <div id="review-container" class="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
+                <!-- Diisi via JavaScript -->
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "Kemampuan seseorang untuk melakukan kegiatan sehari-hari tanpa mengalami kelelahan yang berarti serta masih memiliki cadangan tenaga untuk menikmati waktu luang disebut dengan...",
+                options: [
+                    "Kebugaran jasmani",
+                    "Kekuatan otot",
+                    "Ketahanan tubuh",
+                    "Kesehatan mental"
+                ],
+                correct: 0,
+                explanation: "Kebugaran jasmani adalah kesanggupan tubuh melakukan aktivitas tanpa kelelahan berlebih dan masih memiliki sisa energi."
+            },
+            {
+                question: "Latihan <i>push-up</i> yang dilakukan secara rutin oleh siswa kelas 7 bertujuan utama untuk melatih dan meningkatkan komponen kebugaran jasmani pada bagian...",
+                options: [
+                    "Otot kaki dan betis",
+                    "Otot lengan dan dada",
+                    "Otot leher dan pundak",
+                    "Otot punggung belakang"
+                ],
+                correct: 1,
+                explanation: "Push-up adalah latihan beban tubuh (calisthenics) yang sangat efektif melatih kekuatan otot lengan, bahu, dan dada."
+            },
+            {
+                question: "Untuk mengukur kemampuan daya tahan jantung dan paru-paru (kardiorespirasi) siswa di sekolah, jenis tes kebugaran jasmani nasional yang sering digunakan adalah...",
+                options: [
+                    "Lari 1000/1200 meter",
+                    "Loncat tegak (vertical jump)",
+                    "Gantung angkat tubuh",
+                    "Lari cepat 30 meter"
+                ],
+                correct: 0,
+                explanation: "Lari jarak jauh/menengah (seperti 1000m atau 1200m) merupakan bagian dari Tes Kesegaran Jasmani Indonesia (TKJI) untuk mengukur daya tahan jantung-paru."
+            },
+            {
+                question: "Kemampuan otot untuk melakukan kontraksi guna membangkitkan tegangan terhadap suatu tahanan disebut...",
+                options: [
+                    "Kelenturan (flexibility)",
+                    "Kelincahan (agility)",
+                    "Kekuatan (strength)",
+                    "Kecepatan (speed)"
+                ],
+                correct: 2,
+                explanation: "Kekuatan (strength) adalah kapasitas maksimal otot dalam menghasilkan tenaga atau mengangkat beban."
+            },
+            {
+                question: "Bentuk latihan kebugaran jasmani yang bertujuan khusus untuk melatih kelincahan (agility) di lapangan adalah...",
+                options: [
+                    "Lari maraton jarak jauh",
+                    "Lari bolak-balik (shuttle run)",
+                    "Angkat beban berat",
+                    "Sikap pasang yoga"
+                ],
+                correct: 1,
+                explanation: "Shuttle run atau lari bolak-balik melatih kemampuan seseorang mengubah arah dengan cepat dan terkontrol (kelincahan)."
+            },
+            {
+                question: "Sebelum melakukan inti latihan kebugaran jasmani yang berat, setiap siswa diwajibkan melakukan...",
+                options: [
+                    "Pendinginan (cooling down)",
+                    "Pemanasan (warming up)",
+                    "Istirahat total",
+                    "Makan makanan berat"
+                ],
+                correct: 1,
+                explanation: "Pemanasan berfungsi menaikkan suhu tubuh, melenturkan sendi, dan mencegah cedera sebelum latihan inti."
+            },
+            {
+                question: "Latihan <i>sit-up</i> yang dilakukan secara berulang dalam kurun waktu tertentu terutama berfungsi untuk melatih...",
+                options: [
+                    "Otot perut dan daya tahan",
+                    "Kekuatan otot tungkai kaki",
+                    "Kecepatan lari jarak pendek",
+                    "Kelenturan persendian tangan"
+                ],
+                correct: 0,
+                explanation: "Sit-up berfokus pada penguatan otot perut (abdominal muscles) serta daya tahan otot bagian tengah tubuh."
+            },
+            {
+                question: "Kemampuan persendian untuk dapat bergerak secara leluasa dengan ruang gerak yang seluas-luasnya tanpa mengalami hambatan dinamakan...",
+                options: [
+                    "Kelenturan atau fleksibilitas",
+                    "Koordinasi gerak",
+                    "Keseimbangan statis",
+                    "Daya ledak otot"
+                ],
+                correct: 0,
+                explanation: "Fleksibilitas atau kelenturan berkaitan dengan luas gerak sendi (range of motion)."
+            },
+            {
+                question: "Sikap berdiri dengan satu kaki sementara kaki lainnya diangkat ke depan atau ke samping dengan posisi badan tegak bertujuan untuk melatih...",
+                options: [
+                    "Kecepatan reaksi",
+                    "Keseimbangan (balance)",
+                    "Daya tahan anaerobik",
+                    "Kelincahan gerak"
+                ],
+                correct: 1,
+                explanation: "Latihan berdiri satu kaki sangat baik untuk melatih keseimbangan tubuh baik statis maupun dinamis."
+            },
+            {
+                question: "Setelah melakukan serangkaian aktivitas fisik yang melelahkan, tahap akhir yang harus dilakukan untuk menurunkan denyut nadi secara bertahap dan merilekskan otot adalah...",
+                options: [
+                    "Pemanasan statis",
+                    "Pendinginan (cooling down)",
+                    "Lari cepat sprint",
+                    "Loncat-loncat berat"
+                ],
+                correct: 1,
+                explanation: "Pendinginan membantu mengembalikan sirkulasi darah ke kondisi normal dan mengurangi rasa nyeri otot setelah berolahraga."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let userAnswers = [];
+        let isAnswered = false;
+
+        const landingPage = document.getElementById('landing-page');
+        const quizPage = document.getElementById('quiz-page');
+        const resultPage = document.getElementById('result-page');
+        const reviewPage = document.getElementById('review-page');
+
+        function startQuiz() {
+            landingPage.classList.add('hidden');
+            quizPage.classList.remove('hidden');
+            currentQuestion = 0;
+            score = 0;
+            userAnswers = new Array(questions.length).fill(null);
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            isAnswered = false;
+            const q = questions[currentQuestion];
+            document.getElementById('current-q-num').textContent = currentQuestion + 1;
+            document.getElementById('live-score').textContent = score;
+            document.getElementById('progress-bar').style.width = `${((currentQuestion) / questions.length) * 100}%`;
+            document.getElementById('question-text').innerHTML = q.question;
+
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-2xl border border-gray-200 bg-white hover:bg-indigo-50 hover:border-indigo-300 font-medium text-gray-700 transition-all text-sm sm:text-base flex items-center justify-between shadow-sm";
+                btn.innerHTML = `<span><strong class="mr-2 text-indigo-600">${String.fromCharCode(65 + index)}.</strong> ${opt}</span> <i class="fa-regular fa-circle text-gray-300"></i>`;
+                btn.onclick = () => selectOption(index, btn);
+                optionsContainer.appendChild(btn);
+            });
+
+            document.getElementById('feedback-panel').classList.add('hidden');
+        }
+
+        function selectOption(selectedIndex, btnElement) {
+            if (isAnswered) return;
+            isAnswered = true;
+
+            const q = questions[currentQuestion];
+            userAnswers[currentQuestion] = selectedIndex;
+            const optionButtons = document.getElementById('options-container').children;
+
+            if (selectedIndex === q.correct) {
+                score += 10;
+                btnElement.className = "w-full text-left p-4 rounded-2xl border border-emerald-300 bg-emerald-50 font-medium text-emerald-900 transition-all text-sm sm:text-base flex items-center justify-between shadow-sm";
+                btnElement.querySelector('i').className = "fa-solid fa-circle-check text-emerald-600";
+            } else {
+                btnElement.className = "w-full text-left p-4 rounded-2xl border border-rose-300 bg-rose-50 font-medium text-rose-900 transition-all text-sm sm:text-base flex items-center justify-between shadow-sm";
+                btnElement.querySelector('i').className = "fa-solid fa-circle-xmark text-rose-600";
+                
+                // Show correct option
+                optionButtons[q.correct].className = "w-full text-left p-4 rounded-2xl border border-emerald-300 bg-emerald-50 font-medium text-emerald-900 transition-all text-sm sm:text-base flex items-center justify-between shadow-sm";
+                optionButtons[q.correct].querySelector('i').className = "fa-solid fa-circle-check text-emerald-600";
+            }
+
+            // Disable all buttons
+            for (let btn of optionButtons) {
+                btn.style.pointerEvents = 'none';
+            }
+
+            document.getElementById('live-score').textContent = score;
+
+            // Show feedback
+            const feedbackPanel = document.getElementById('feedback-panel');
+            const feedbackText = document.getElementById('feedback-text');
+            feedbackText.innerHTML = `<strong>${selectedIndex === q.correct ? '🎉 Benar!' : '❌ Kurang tepat.'}</strong> ${q.explanation}`;
+            feedbackPanel.classList.remove('hidden');
+
+            const nextBtn = document.getElementById('next-btn');
+            if (currentQuestion === questions.length - 1) {
+                nextBtn.innerHTML = 'Lihat Hasil <i class="fa-solid fa-flag-checkered ml-1"></i>';
+            } else {
+                nextBtn.innerHTML = 'Lanjut <i class="fa-solid fa-arrow-right ml-1"></i>';
+            }
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            quizPage.classList.add('hidden');
+            resultPage.classList.remove('hidden');
+            document.getElementById('final-score').textContent = score;
+
+            const badgeIcon = document.getElementById('result-badge-icon');
+            const badgeLabel = document.getElementById('result-badge-label');
+            const resultMessage = document.getElementById('result-message');
+
+            if (score === 100) {
+                badgeIcon.textContent = "🏆";
+                badgeIcon.className = "inline-flex items-center justify-center w-24 h-24 rounded-full text-4xl mb-6 shadow-md bg-amber-100 text-amber-600";
+                badgeLabel.textContent = "Master Kebugaran";
+                badgeLabel.className = "inline-block bg-amber-100 text-amber-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-2";
+                resultMessage.textContent = "Luar biasa! Pemahamanmu tentang kebugaran jasmani sangat sempurna!";
+            } else if (score >= 70) {
+                badgeIcon.textContent = "⭐";
+                badgeIcon.className = "inline-flex items-center justify-center w-24 h-24 rounded-full text-4xl mb-6 shadow-md bg-emerald-100 text-emerald-600";
+                badgeLabel.textContent = "Pejuang Sehat";
+                badgeLabel.className = "inline-block bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-2";
+                resultMessage.textContent = "Bagus sekali! Kamu memiliki pengetahuan kebugaran yang sangat baik.";
+            } else {
+                badgeIcon.textContent = "💪";
+                badgeIcon.className = "inline-flex items-center justify-center w-24 h-24 rounded-full text-4xl mb-6 shadow-md bg-indigo-100 text-indigo-600";
+                badgeLabel.textContent = "Semangat Belajar";
+                badgeLabel.className = "inline-block bg-indigo-100 text-indigo-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-2";
+                resultMessage.textContent = "Tetap semangat! Yuk baca kembali materinya dan coba ulangi kuisnya.";
+            }
+        }
+
+        function restartQuiz() {
+            resultPage.classList.add('hidden');
+            landingPage.classList.remove('hidden');
+        }
+
+        function showReview() {
+            resultPage.classList.add('hidden');
+            reviewPage.classList.remove('hidden');
+
+            const reviewContainer = document.getElementById('review-container');
+            reviewContainer.innerHTML = '';
+
+            questions.forEach((q, idx) => {
+                const userAns = userAnswers[idx];
+                const isCorrect = userAns === q.correct;
+
+                const div = document.createElement('div');
+                div.className = `p-4 rounded-2xl border ${isCorrect ? 'bg-emerald-50/50 border-emerald-200' : 'bg-rose-50/50 border-rose-200'}`;
+                
+                let optionsHtml = '';
+                q.options.forEach((opt, oIdx) => {
+                    let style = "text-gray-600";
+                    let icon = "";
+                    if (oIdx === q.correct) {
+                        style = "font-bold text-emerald-700";
+                        icon = ' <i class="fa-solid fa-check text-emerald-600 ml-1"></i>';
+                    } else if (oIdx === userAns && !isCorrect) {
+                        style = "font-bold text-rose-700 line-through";
+                        icon = ' <i class="fa-solid fa-xmark text-rose-600 ml-1"></i>';
+                    }
+                    optionsHtml += `<div class="text-xs sm:text-sm ${style}">${String.fromCharCode(65 + oIdx)}. ${opt}${icon}</div>`;
+                });
+
+                div.innerHTML = `
+                    <div class="flex items-start justify-between mb-2">
+                        <span class="text-xs font-bold px-2.5 py-1 rounded-lg ${isCorrect ? 'bg-emerald-200 text-emerald-800' : 'bg-rose-200 text-rose-800'}">Soal ${idx + 1}</span>
+                        <span class="text-xs font-semibold ${isCorrect ? 'text-emerald-600' : 'text-rose-600'}">${isCorrect ? 'Benar' : 'Salah'}</span>
+                    </div>
+                    <p class="font-bold text-gray-800 text-sm sm:text-base mb-3">${q.question}</p>
+                    <div class="space-y-1 mb-3 bg-white/80 p-3 rounded-xl border border-gray-100">${optionsHtml}</div>
+                    <p class="text-xs text-gray-600 italic bg-white/50 p-2.5 rounded-lg border border-gray-100"><strong class="not-italic text-indigo-600">Pembahasan:</strong> ${q.explanation}</p>
+                `;
+                reviewContainer.appendChild(div);
+            });
+        }
+
+        function backToResult() {
+            reviewPage.classList.add('hidden');
+            resultPage.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
